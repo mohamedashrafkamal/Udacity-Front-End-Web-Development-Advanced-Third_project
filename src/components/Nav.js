@@ -29,7 +29,7 @@ class Nav extends Component {
             </li>
             <li className="ml-2 2xl:ml-8 p-2">
               <NavLink
-                to="/new"
+                to="/add"
                 activeClassName="pb-2 border-b-4 border-yellow-400"
               >
                 New Question

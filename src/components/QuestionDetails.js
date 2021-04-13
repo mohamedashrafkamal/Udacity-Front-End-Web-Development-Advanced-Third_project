@@ -8,17 +8,22 @@ class QuestionDetails extends Component {
   state = {
     toHome: false,
     answer: "optionOne",
+    loading: false,
   };
 
   handleSubmit = (e) => {
     e.preventDefault();
+
+    this.setState(() => ({
+      loading: true,
+    }));
 
     const { dispatch, id } = this.props;
     const { answer } = this.state;
     dispatch(handleAnswerQuestion({ id, answer }));
 
     this.setState(() => ({
-      toHome: true,
+      loading: false,
     }));
   };
 
@@ -44,12 +49,20 @@ class QuestionDetails extends Component {
   };
 
   render() {
-    const { toHome } = this.state;
+    const { toHome, loading } = this.state;
 
     const { id, users, questions, authedUser } = this.props;
-    if (Object.keys(authedUser).length === 0 || toHome === true) {
+    if (toHome === true) {
       return <Redirect to="/" />;
     }
+
+    const loaded =
+      Object.keys(users).length !== 0 && Object.keys(questions).length !== 0;
+
+    if (!loaded) {
+      return null;
+    }
+
     const { author, optionOne, optionTwo } = questions[id];
     const user = users[author];
 
@@ -202,15 +215,15 @@ class QuestionDetails extends Component {
                   "font-bold rounded-full ring-2 px-3 py-2 mt-6",
                   {
                     "cursor-default bg-gray-400 bg-opacity-75 text-black text-opacity-50":
-                      authedUserObject.questions.length === 0,
+                      authedUserObject.questions.length === 0 || loading,
                   },
                   {
                     "bg-white ring-light-blue-200 text-cyan-400 hover:text-cyan-700":
-                      authedUserObject.questions.length > 0,
+                      authedUserObject.questions.length > 0 && !loading,
                   }
                 )}
                 type="submit"
-                disabled={authedUserObject.questions.length === 0}
+                disabled={authedUserObject.questions.length === 0 || loading}
               >
                 Submit
               </button>

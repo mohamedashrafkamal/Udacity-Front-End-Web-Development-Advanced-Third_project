@@ -9,27 +9,41 @@ import QuestionDetails from "./QuestionDetails";
 import NewQuestion from "./NewQuestion";
 import Nav from "./Nav";
 import LeaderBoard from "./LeaderBoard";
-import { Route, Redirect, withRouter } from "react-router-dom";
+import { Route } from "react-router-dom";
 
 class App extends Component {
   render() {
     const { authedUser } = this.props;
 
+    const loggedIn = Object.keys(authedUser).length !== 0;
+
     return (
       <div className="mx-auto">
         <div>
-          {Object.keys(authedUser).length !== 0 && <Nav />}
+          {loggedIn && <Nav />}
           <LoadingBar />
 
-          {Object.keys(authedUser).length === 0 ? (
-            <Redirect to="/login" />
-          ) : null}
           <Route path="/login" component={LoginForm} />
           <Route path="/signup" component={SignupForm} />
-          <Route exact path="/" component={Home} />
-          <Route path="/question/:id" component={QuestionDetails} />
-          <Route path="/new" component={NewQuestion} />
-          <Route path="/leaderboard" component={LeaderBoard} />
+          <Route
+            exact
+            path="/"
+            render={() => (loggedIn ? <Home /> : <LoginForm />)}
+          />
+          <Route
+            path="/question/:id"
+            render={(props) =>
+              loggedIn ? <QuestionDetails {...props} /> : <LoginForm />
+            }
+          />
+          <Route
+            path="/add"
+            render={() => (loggedIn ? <NewQuestion /> : <LoginForm />)}
+          />
+          <Route
+            path="/leaderboard"
+            render={() => (loggedIn ? <LeaderBoard /> : <LoginForm />)}
+          />
         </div>
       </div>
     );
@@ -40,4 +54,4 @@ const mapStateToProps = ({ authedUser }) => ({
   authedUser,
 });
 
-export default withRouter(connect(mapStateToProps)(App));
+export default connect(mapStateToProps)(App);
