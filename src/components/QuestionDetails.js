@@ -63,6 +63,13 @@ class QuestionDetails extends Component {
       return null;
     }
 
+    debugger;
+    if (questions[id] === undefined) {
+      return (
+        <div className="w-screen h-screen overflow-hidden bg-404-image bg-no-repeat bg-cover"></div>
+      );
+    }
+
     const { author, optionOne, optionTwo } = questions[id];
     const user = users[author];
 
@@ -100,7 +107,7 @@ class QuestionDetails extends Component {
 
               <div
                 className={classnames(
-                  "relative shadow-xl ring-2 ring-cyan-400 p-4 mt-4 rounded-lg",
+                  "flex flex-col relative shadow-xl ring-2 ring-cyan-400 p-4 mt-4 rounded-lg",
                   {
                     "bg-gradient-to-r from-green-200 to-green-400 ring-green-200":
                       authedUserVote === 1,
@@ -135,10 +142,11 @@ class QuestionDetails extends Component {
                     ></div>
                   </div>
                 </div>
+                <p className="font-bold self-center mt-4">{`${optionOneNoOfVotes} out of votes ${totalVotes}`}</p>
               </div>
               <div
                 className={classnames(
-                  "relative shadow-xl ring-2 ring-cyan-400 p-4 mt-4 rounded-lg",
+                  "flex flex-col relative shadow-xl ring-2 ring-cyan-400 p-4 mt-4 rounded-lg",
                   {
                     "bg-gradient-to-r from-green-200 to-green-400 ring-green-200":
                       authedUserVote === 2,
@@ -173,6 +181,7 @@ class QuestionDetails extends Component {
                     ></div>
                   </div>
                 </div>
+                <p className="font-bold self-center mt-4">{`${optionTwoNoOfVotes} out of votes ${totalVotes}`}</p>
               </div>
             </div>
           )}

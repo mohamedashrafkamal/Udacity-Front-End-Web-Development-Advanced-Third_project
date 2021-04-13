@@ -11,6 +11,7 @@ module.exports = {
       },
       backgroundImage: (theme) => ({
         "login-image": "url('/src/images/bg.png')",
+        "404-image": "url('/src/images/404.gif')",
       }),
     },
   },

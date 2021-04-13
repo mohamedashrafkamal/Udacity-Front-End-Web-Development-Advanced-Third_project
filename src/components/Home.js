@@ -31,6 +31,11 @@ class Home extends Component {
             -1 &&
           active === "U")
     );
+
+    if (filteredIds.length === 0) {
+      return null;
+    }
+
     return (
       <div className="relative w-1/1 sm:w-2/3 md:w-1/2 lg:w-2/5 2xl:w-1/4 bg-gradient-to-r from-cyan-200 to-light-blue-200 m-auto my-16 p-2 pt-8 rounded-lg">
         <div className="absolute -top-8 left-5 right-5 shadow-xl">
